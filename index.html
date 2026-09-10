@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- MindAR & A-Frame 엔진 -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- 크로마키 셰이더 라이브러리 -->
+    <script src="https://unpkg.com/aframe-chromakey-material/dist/aframe-chromakey-material.min.js"></script>
+    
+    <style>
+      .video-crop-container {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        overflow: hidden; 
+        visibility: hidden;
+      }
+      .video-crop-container video {
+        transform: scale(1.03); 
+        transform-origin: center center;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    
+    <!-- 크롭용 숨김 div -->
+    <div class="video-crop-container">
+      <video id="ar-video-1" src="./assets/heart.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      <!-- 💡 B 애니메이션: loop 속성 제거 및 스크립트로 1회 재생 확실히 제어 -->
+      <video id="ar-video-heart-after" src="./assets/heart-after.mp4" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      <video id="ar-video-2" src="./assets/bear ear.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      <video id="ar-video-3" src="./assets/tear.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      <video id="ar-video-4" src="./assets/bear.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+    </div>
+
+    <a-scene mindar-image="imageTargetSrc: ./assets/targets.mind;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- 타겟 인식 영역 -->
+      <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
+        
+        <!-- 첫 번째 영상 (heart.mp4) -->
+        <a-plane id="plane-heart" 
+                 material="shader: chromakey; src: #ar-video-1; color: 0 1 0;" 
+                 chromakey-material="threshold: 0.15; bias: 0.05; feather: 0.01;"
+                 width="0.23" height="0.23" 
+                 position="0.41 -0.1 0">
+        </a-plane>
+
+        <!-- B 애니메이션 Plane (heart-after.mp4) -->
+        <a-plane id="plane-heart-after" visible="false"
+                 material="shader: chromakey; src: #ar-video-heart-after; color: 0 1 0;" 
+                 chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;"
+                 width="0.23" height="0.23" 
+                 position="0.41 -0.1 0">
+        </a-plane>
+
+        <!-- 두 번째 영상 (bear ear.mp4) -->
+        <a-plane material="shader: chromakey; src: #ar-video-2; color: 0 1 0;" 
+                 chromakey-material="threshold: 0.5; bias: 100; feather: 0.01;"
+                 width="0.3" height="0.095"
+                 position="-0.29 0.08 0">
+        </a-plane>
+
+        <!-- 세 번째 영상 (tear.mp4) -->
+        <a-plane material="shader: chromakey; src: #ar-video-3; color: 0 1 0;" 
+                 chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;"
+                 width="0.5" height="0.173" 
+                 position="-0.3 -0.1 0">
+        </a-plane>
+
+        <!-- 네 번째 영상 (bear.mp4) -->
+        <a-plane material="shader: chromakey; src: #ar-video-4; color: 0 1 0;" 
+                 chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;"
+                 width="0.3" height="0.3" 
+                 position="-0.19 0.36 0.01">
+        </a-plane>
+
+      </a-entity>
+
+    </a-scene>
+
+    <script>
+      const targetEntity = document.querySelector('#ar-target');
+      
+      const videoEl1 = document.querySelector('#ar-video-1'); 
+      const videoHeartAfter = document.querySelector('#ar-video-heart-after'); 
+      const videoEl2 = document.querySelector('#ar-video-2');
+      const videoEl3 = document.querySelector('#ar-video-3');
+      const videoEl4 = document.querySelector('#ar-video-4');
+
+      const planeHeart = document.querySelector('#plane-heart');
+      const planeHeartAfter = document.querySelector('#plane-heart-after');
+
+      let isTracking = false;
+      let isHeartAfterPlaying = false;
+
+      targetEntity.addEventListener("targetFound", () => {
+        isTracking = true;
+        if (!isHeartAfterPlaying) {
+          videoEl1.play().catch(err => console.log("Play error 1:", err));
+        }
+        videoEl2.play().catch(err => console.log("Play error 2:", err));
+        videoEl3.play().catch(err => console.log("Play error 3:", err));
+        videoEl4.play().catch(err => console.log("Play error 4:", err));
+      });
+
+      targetEntity.addEventListener("targetLost", () => {
+        isTracking = false;
+        videoEl1.pause();
+        videoHeartAfter.pause();
+        videoEl2.pause();
+        videoEl3.pause();
+        videoEl4.pause();
+      });
+
+      // 화면 터치/클릭 시 B 애니메이션 1회 재생 트리거
+      window.addEventListener('click', () => {
+        if (!isTracking || isHeartAfterPlaying) return;
+        
+        isHeartAfterPlaying = true;
+        videoEl1.pause();
+        planeHeart.setAttribute('visible', 'false');
+
+        // B 영상 시점을 처음(0초)으로 강제 초기화 후 재생
+        videoHeartAfter.currentTime = 0;
+        planeHeartAfter.setAttribute('visible', 'true');
+        videoHeartAfter.play().catch(err => console.log("Play error heart-after:", err));
+      });
+
+      // 💡 [핵심] B 애니메이션이 끝나는 순간 확실하게 정지시키고 A로 복귀
+      videoHeartAfter.addEventListener("ended", () => {
+        videoHeartAfter.pause(); // 확실하게 일시정지하여 무한 반복 방지
+        isHeartAfterPlaying = false;
+
+        planeHeartAfter.setAttribute('visible', 'false');
+        planeHeart.setAttribute('visible', 'true');
+        
+        if (isTracking) {
+          videoEl1.play().catch(err => console.log("Play error 1 resume:", err));
+        }
+      });
+    </script>
+  </body>
+</html>
