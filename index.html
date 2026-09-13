@@ -36,8 +36,15 @@
       <video id="ar-video-8" src="./assets/note.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
     </div>
 
-    <a-scene id="main-scene" mindar-image="imageTargetSrc: ./assets/targets.mind;" renderer="colorManagement: true;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      
+   <a-scene id="main-scene" 
+         mindar-image="imageTargetSrc: ./assets/targets.mind; 
+                       uiScanning: #custom-scanning-overlay; 
+                       filterMinCF: 0.0001; 
+                       filterBeta: 0.001; 
+                       missTolerance: 5;" 
+         renderer="colorManagement: true;" 
+         vr-mode-ui="enabled: false" 
+         device-orientation-permission-ui="enabled: false">
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
