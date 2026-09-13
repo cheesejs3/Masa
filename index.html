@@ -29,8 +29,9 @@
       <video id="ar-video-3" src="./assets/tear.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
       <video id="ar-video-4" src="./assets/bear.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
       
-      <!-- 새로 추가된 영상 (sweat.mp4 완전 삭제) -->
       <video id="ar-video-5" src="./assets/button.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      <video id="ar-video-button-after" src="./assets/button-after.mp4" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
+      
       <video id="ar-video-7" src="./assets/ice.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
       <video id="ar-video-8" src="./assets/note.mp4" loop="true" muted="true" crossorigin="anonymous" playsinline webkit-playsinline></video>
     </div>
@@ -41,20 +42,25 @@
 
       <a-entity id="ar-target" mindar-image-target="targetIndex: 0">
         
-        <!-- 기존 하트 인터랙션 그룹 -->
+        <!-- 1. Heart 그룹 -->
         <a-plane id="plane-heart" material="shader: chromakey; src: #ar-video-1; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.15; bias: 0.05; feather: 0.01;" width="0.23" height="0.23" position="0.41 -0.1 0"></a-plane>
         <a-plane id="plane-heart-after" visible="false" material="shader: chromakey; src: #ar-video-heart-after; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.23" height="0.23" position="0.41 -0.1 0"></a-plane>
-        <a-plane id="click-trigger" material="depthWrite: false; opacity: 0.0; transparent: true;" width="0.35" height="0.35" position="0.41 -0.1 0.01"></a-plane>
+        <a-plane id="click-trigger-heart" material="depthWrite: false; opacity: 0.0; transparent: true;" width="0.35" height="0.35" position="0.41 -0.1 0.01"></a-plane>
         
-        <!-- 기존 영상들 -->
-        <a-plane material="shader: chromakey; src: #ar-video-2; color: 0 1 0;" chromakey-material="threshold: 0.5; bias: 100; feather: 0.01;" width="0.3" height="0.095" position="-0.29 0.08 0.01"></a-plane>
-        <a-plane material="shader: chromakey; src: #ar-video-3; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.5" height="0.173" position="-0.3 -0.1 0.01"></a-plane>
-        <a-plane material="shader: chromakey; src: #ar-video-4; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.3" height="0.3" position="-0.19 0.36 0.01"></a-plane>
+        <!-- 2. Bear 그룹 -->
+        <a-plane id="plane-bear-ear" visible="false" material="shader: chromakey; src: #ar-video-2; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.5; bias: 100; feather: 0.01;" width="0.3" height="0.095" position="-0.29 0.08 0.01"></a-plane>
+        <a-plane id="plane-bear" material="shader: chromakey; src: #ar-video-4; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.3" height="0.3" position="-0.19 0.36 0.01"></a-plane>
+        <a-plane id="click-trigger-bear" material="depthWrite: false; opacity: 0.0; transparent: true;" width="0.4" height="0.4" position="-0.19 0.36 0.02"></a-plane>
 
-        <!-- 새로 추가된 영상 -->
+        <!-- 3. Button 그룹 -->
         <a-plane id="plane-button" material="depthWrite: false; shader: chromakey; src: #ar-video-5; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.16" height="0.16" position="-0.46 -0.26 0"></a-plane>
-        <a-plane id="plane-ice" material="shader: chromakey; src: #ar-video-7; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.25" height="0.31" position="0.3 -0.3 0"></a-plane>
-        <a-plane id="plane-note" material="shader: chromakey; src: #ar-video-8; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.23" height="0.21" position="0.26 0.25 0"></a-plane>
+        <a-plane id="plane-button-after" visible="false" material="depthWrite: false; shader: chromakey; src: #ar-video-button-after; color: 0 1 0;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.15" height="0.59" position="-0.46 -0.045 0"></a-plane>
+        <a-plane id="click-trigger-button" material="depthWrite: false; opacity: 0.0; transparent: true;" width="0.25" height="0.25" position="-0.46 -0.26 0.01"></a-plane>
+
+        <!-- 나머지 영상들 -->
+        <a-plane id="plane-tear" material="shader: chromakey; src: #ar-video-3; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.5" height="0.173" position="-0.3 -0.1 0.01"></a-plane>
+        <a-plane id="plane-ice" material="shader: chromakey; src: #ar-video-7; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.25" height="0.31" position="0.3 -0.3 0"></a-plane>
+        <a-plane id="plane-note" material="shader: chromakey; src: #ar-video-8; color: 0 1 0; depthWrite: false;" chromakey-material="threshold: 0.35; bias: 0.05; feather: 0.02;" width="0.23" height="0.21" position="0.26 0.25 0"></a-plane>
 
       </a-entity>
     </a-scene>
@@ -68,30 +74,42 @@
       const videoEl2 = document.querySelector('#ar-video-2');
       const videoEl3 = document.querySelector('#ar-video-3');
       const videoEl4 = document.querySelector('#ar-video-4');
-      
       const videoEl5 = document.querySelector('#ar-video-5');
+      const videoButtonAfter = document.querySelector('#ar-video-button-after');
       const videoEl7 = document.querySelector('#ar-video-7');
       const videoEl8 = document.querySelector('#ar-video-8');
 
       const planeHeart = document.querySelector('#plane-heart');
       const planeHeartAfter = document.querySelector('#plane-heart-after');
-      const clickTrigger = document.querySelector('#click-trigger');
+      const clickTriggerHeart = document.querySelector('#click-trigger-heart');
+
+      const planeBearEar = document.querySelector('#plane-bear-ear');
+      const clickTriggerBear = document.querySelector('#click-trigger-bear');
+
+      const planeButton = document.querySelector('#plane-button');
+      const planeButtonAfter = document.querySelector('#plane-button-after');
+      const clickTriggerButton = document.querySelector('#click-trigger-button');
 
       let isTracking = false;
       let isHeartAfterPlaying = false;
+      let isButtonAfterPlaying = false;
+      let isBearEarVisible = false;
+      
+      // 💡 핵심: 마지막으로 터치된 시간을 저장하는 변수
+      let lastTouchTime = 0; 
 
       targetEntity.addEventListener("targetFound", () => {
         isTracking = true;
-        if (!isHeartAfterPlaying) {
-          videoEl1.play().catch(err => console.log("Play error 1:", err));
-        }
-        videoEl2.play().catch(err => console.log("Play error 2:", err));
-        videoEl3.play().catch(err => console.log("Play error 3:", err));
-        videoEl4.play().catch(err => console.log("Play error 4:", err));
         
-        videoEl5.play().catch(err => console.log("Play error 5:", err));
-        videoEl7.play().catch(err => console.log("Play error 7:", err));
-        videoEl8.play().catch(err => console.log("Play error 8:", err));
+        if (!isHeartAfterPlaying) videoEl1.play().catch(e => console.log(e));
+        if (!isButtonAfterPlaying) videoEl5.play().catch(e => console.log(e));
+        
+        if (isBearEarVisible) videoEl2.play().catch(e => console.log(e));
+        
+        videoEl3.play().catch(e => console.log(e));
+        videoEl4.play().catch(e => console.log(e));
+        videoEl7.play().catch(e => console.log(e));
+        videoEl8.play().catch(e => console.log(e));
       });
 
       targetEntity.addEventListener("targetLost", () => {
@@ -101,14 +119,19 @@
         videoEl2.pause();
         videoEl3.pause();
         videoEl4.pause();
-        
         videoEl5.pause();
+        videoButtonAfter.pause();
         videoEl7.pause();
         videoEl8.pause();
       });
 
       function checkIntersection(clientX, clientY) {
-        if (!isTracking || isHeartAfterPlaying) return;
+        if (!isTracking) return;
+
+        // 💡 핵심: 300ms 이내에 중복으로 들어오는 터치/클릭 이벤트 무시 (더블 파이어 방지)
+        const now = Date.now();
+        if (now - lastTouchTime < 300) return;
+        lastTouchTime = now;
 
         const mouse = new THREE.Vector2();
         mouse.x = (clientX / window.innerWidth) * 2 - 1;
@@ -120,20 +143,46 @@
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera);
 
-        const triggerMesh = clickTrigger.getObject3D('mesh');
-        if (!triggerMesh) return;
+        const heartMesh = clickTriggerHeart.getObject3D('mesh');
+        const bearMesh = clickTriggerBear.getObject3D('mesh');
+        const buttonMesh = clickTriggerButton.getObject3D('mesh');
 
-        const intersects = raycaster.intersectObject(triggerMesh, true);
-        
-        if (intersects.length > 0) {
-          isHeartAfterPlaying = true;
-          videoEl1.pause();
-          planeHeart.setAttribute('visible', 'false');
-          clickTrigger.setAttribute('visible', 'false');
+        if (heartMesh && raycaster.intersectObject(heartMesh, true).length > 0) {
+          if (!isHeartAfterPlaying) {
+            isHeartAfterPlaying = true;
+            videoEl1.pause();
+            planeHeart.setAttribute('visible', 'false');
+            clickTriggerHeart.setAttribute('visible', 'false');
 
-          videoHeartAfter.currentTime = 0;
-          planeHeartAfter.setAttribute('visible', 'true');
-          videoHeartAfter.play().catch(err => console.log("Play error heart-after:", err));
+            videoHeartAfter.currentTime = 0;
+            planeHeartAfter.setAttribute('visible', 'true');
+            videoHeartAfter.play().catch(e => console.log(e));
+          }
+        }
+
+        // 💡 곰 토글 애니메이션: 방어 코드로 인해 완벽하게 1회씩만 토글됨
+        if (bearMesh && raycaster.intersectObject(bearMesh, true).length > 0) {
+          isBearEarVisible = !isBearEarVisible;
+          planeBearEar.setAttribute('visible', isBearEarVisible.toString());
+          
+          if (isBearEarVisible) {
+            videoEl2.play().catch(e => console.log(e));
+          } else {
+            videoEl2.pause();
+          }
+        }
+
+        if (buttonMesh && raycaster.intersectObject(buttonMesh, true).length > 0) {
+          if (!isButtonAfterPlaying) {
+            isButtonAfterPlaying = true;
+            videoEl5.pause();
+            planeButton.setAttribute('visible', 'false');
+            clickTriggerButton.setAttribute('visible', 'false');
+
+            videoButtonAfter.currentTime = 0;
+            planeButtonAfter.setAttribute('visible', 'true');
+            videoButtonAfter.play().catch(e => console.log(e));
+          }
         }
       }
 
@@ -150,14 +199,19 @@
       videoHeartAfter.addEventListener("ended", () => {
         videoHeartAfter.pause();
         isHeartAfterPlaying = false;
-
         planeHeartAfter.setAttribute('visible', 'false');
         planeHeart.setAttribute('visible', 'true');
-        clickTrigger.setAttribute('visible', 'true'); 
-        
-        if (isTracking) {
-          videoEl1.play().catch(err => console.log("Play error 1 resume:", err));
-        }
+        clickTriggerHeart.setAttribute('visible', 'true'); 
+        if (isTracking) videoEl1.play().catch(e => console.log(e));
+      });
+
+      videoButtonAfter.addEventListener("ended", () => {
+        videoButtonAfter.pause();
+        isButtonAfterPlaying = false;
+        planeButtonAfter.setAttribute('visible', 'false');
+        planeButton.setAttribute('visible', 'true');
+        clickTriggerButton.setAttribute('visible', 'true'); 
+        if (isTracking) videoEl5.play().catch(e => console.log(e));
       });
     </script>
   </body>
